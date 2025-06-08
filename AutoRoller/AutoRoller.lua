@@ -75,6 +75,19 @@ local function HideLootRollFrame(rollID)
     end
 end
 
+local function HideLootRollFrameDelayed(rollID)
+    local delayFrame = CreateFrame("Frame")
+    local elapsed = 0
+    delayFrame:SetScript("OnUpdate", function(self, e)
+        elapsed = elapsed + e
+        if elapsed > 0.1 then
+            HideLootRollFrame(rollID)
+            self:SetScript("OnUpdate", nil)
+            self:Hide()
+        end
+    end)
+end
+
 local function OnStartLootRoll(rollID, rollTime)
     if not db or not db.autoRollEnabled then return end
     local _, _, _, quality = GetLootRollItemInfo(rollID)
@@ -84,7 +97,7 @@ local function OnStartLootRoll(rollID, rollTime)
     local decision = GetDecision(itemLink, quality)
     if not decision then return end
     Roll(rollID, decision)
-    HideLootRollFrame(rollID)
+    HideLootRollFrameDelayed(rollID)
     print("AutoRoller: " .. decision .. " on " .. itemLink)
 end
 
