@@ -126,7 +126,9 @@ function CreateAutoRollerConfigFrame()
     if AutoRollerConfigFrame then return end
 
     local frame = CreateFrame("Frame", "AutoRollerConfigFrame", UIParent, "BasicFrameTemplate")
-    frame:SetSize(700, 300)
+    -- Without the memory viewer the config frame can be much narrower
+    -- Reduce the width so it better fits the remaining controls
+    frame:SetSize(360, 300)
     frame:SetPoint("CENTER")
     frame:SetMovable(true)
     frame:EnableMouse(true)
