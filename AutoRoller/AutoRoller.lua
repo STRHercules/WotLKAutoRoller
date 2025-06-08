@@ -126,7 +126,7 @@ function CreateAutoRollerConfigFrame()
     if AutoRollerConfigFrame then return end
 
     local frame = CreateFrame("Frame", "AutoRollerConfigFrame", UIParent, "BasicFrameTemplate")
-    frame:SetSize(700, 300)
+    frame:SetSize(400, 260)
     frame:SetPoint("CENTER")
     frame:SetMovable(true)
     frame:EnableMouse(true)
