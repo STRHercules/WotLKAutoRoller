@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: AutoRoller
+## Notes: Auto roll loot intelligently
+## Author: Nat + ChatGPT
+## SavedVariablesPerCharacter: AutoRollerDB
+AutoRoller.lua
