@@ -69,6 +69,21 @@ local function Roll(rollID, decision)
     if rollMap[decision] then RollOnLoot(rollID, rollMap[decision]) end
 end
 
+local function HideLootRollFrame(rollID)
+    for i = 1, NUM_GROUP_LOOT_FRAMES or 4 do
+        local frame = _G["GroupLootFrame" .. i]
+        if frame and frame.rollID == rollID then
+            frame.rollID = 0
+            frame:Hide()
+            break
+        end
+    end
+    if StaticPopup_Hide then
+        StaticPopup_Hide("CONFIRM_LOOT_ROLL", rollID)
+        StaticPopup_Hide("CONFIRM_DISENCHANT_ROLL", rollID)
+    end
+end
+
 local function OnStartLootRoll(rollID, rollTime)
     if not db or not db.autoRollEnabled then return end
     local _, _, _, quality, _, _, _, canDE = GetLootRollItemInfo(rollID)
@@ -79,6 +94,7 @@ local function OnStartLootRoll(rollID, rollTime)
     if not decision then return end
     if decision == "disenchant" and not canDE then decision = "greed" end
     Roll(rollID, decision)
+    HideLootRollFrame(rollID)
     print("AutoRoller: " .. decision .. " on " .. itemLink)
 end
 
