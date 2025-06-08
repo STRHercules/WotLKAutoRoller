@@ -88,6 +88,7 @@ AutoRoller:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" and arg1 == addonName then
         InitDB()
         CreateAutoRollerConfigFrame()
+        CreateMemoryViewerFrame()
         AutoRoller:UnregisterEvent("ADDON_LOADED")
     elseif event == "START_LOOT_ROLL" then
         OnStartLootRoll(arg1)
@@ -117,6 +118,7 @@ SlashCmdList["AUTOROLLER"] = function(msg)
         print("/ar toggle - Toggle auto-roll")
         print("/ar reset - Reset item memory")
         print("/ar config - Toggle config UI")
+        print("/armem - Toggle memory viewer")
     end
 end
 
@@ -152,6 +154,16 @@ function CreateAutoRollerConfigFrame()
         print("AutoRoller: Auto-roll is now " .. (db.autoRollEnabled and "enabled" or "disabled"))
     end)
     _G[enableCheckbox:GetName() .. "Text"]:SetText("Enable Auto-Rolling")
+
+    local memoryButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+    memoryButton:SetPoint("LEFT", enableCheckbox, "RIGHT", 10, 0)
+    memoryButton:SetText("Memory")
+    memoryButton:SetWidth(70)
+    memoryButton:SetScript("OnClick", function()
+        if AutoRollerMemoryFrame then
+            AutoRollerMemoryFrame:SetShown(not AutoRollerMemoryFrame:IsShown())
+        end
+    end)
     
 
     local rollOptions = {"disable", "need", "greed", "disenchant", "pass"}
@@ -200,36 +212,11 @@ function CreateAutoRollerConfigFrame()
     CreateDropdown(5, -160)
     CreateDropdown(6, -200)
 
-    -- Memory Viewer Panel
-    local memoryLabel = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    memoryLabel:SetPoint("TOPLEFT", enableCheckbox, "TOPRIGHT", 260, 0)
-    memoryLabel:SetText("Memory Viewer:")
-
-    local scrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-    scrollFrame:SetSize(250, 180)
-    scrollFrame:SetPoint("TOPLEFT", memoryLabel, "BOTTOMLEFT", 0, -10)
-
-    local content = CreateFrame("Frame", nil, scrollFrame)
-    content:SetSize(280, 200)
-    scrollFrame:SetScrollChild(content)
-
-    local memoryText = content:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-    memoryText:SetPoint("TOPLEFT")
-    memoryText:SetWidth(280)
-    memoryText:SetJustifyH("LEFT")
-
     frame:SetScript("OnShow", function()
         enableCheckbox:SetChecked(db.autoRollEnabled)
         for rarity, dropdown in pairs(dropdowns) do
             UIDropDownMenu_SetSelectedValue(dropdown, db.rollRules[rarity])
         end
-
-        local lines = {}
-        for itemID, decision in pairs(db.itemMemory) do
-            local itemLink = "|cff0070dd|Hitem:" .. itemID .. "::::::::80:::::::::|h[item]" .. itemID .. "|h|r"
-            table.insert(lines, itemLink .. " - " .. decision)
-        end
-        memoryText:SetText(table.concat(lines, "\n"))
     end)
 
     SLASH_AUTOROLLERCONFIG1 = "/arconfig"
@@ -240,4 +227,65 @@ function CreateAutoRollerConfigFrame()
         end
         AutoRollerConfigFrame:SetShown(not AutoRollerConfigFrame:IsShown())
     end
+
+    SLASH_AUTOROLLERMEMORY1 = "/armem"
+    SlashCmdList["AUTOROLLERMEMORY"] = function()
+        if not db then
+            print("AutoRoller: Settings not loaded yet.")
+            return
+        end
+        if AutoRollerMemoryFrame then
+            AutoRollerMemoryFrame:SetShown(not AutoRollerMemoryFrame:IsShown())
+        end
+    end
+end
+
+function CreateMemoryViewerFrame()
+    if AutoRollerMemoryFrame then return end
+
+    local frame = CreateFrame("Frame", "AutoRollerMemoryFrame", UIParent, "BasicFrameTemplate")
+    frame:SetSize(300, 250)
+    frame:SetPoint("CENTER")
+    frame:SetMovable(true)
+    frame:EnableMouse(true)
+    frame:RegisterForDrag("LeftButton")
+    frame:SetScript("OnDragStart", frame.StartMoving)
+    frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+    frame:Hide()
+
+    frame:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        tile = true, tileSize = 32, edgeSize = 32,
+        insets = { left = 11, right = 12, top = 12, bottom = 11 },
+    })
+    frame:SetBackdropColor(0, 0, 0, 1)
+
+    frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    frame.title:SetPoint("CENTER", frame.TitleBg or frame, "TOP", 0, -10)
+    frame.title:SetText("AutoRoller Memory")
+
+    local scrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetSize(250, 180)
+    scrollFrame:SetPoint("TOPLEFT", 15, -40)
+
+    local content = CreateFrame("Frame", nil, scrollFrame)
+    content:SetSize(280, 200)
+    scrollFrame:SetScrollChild(content)
+
+    local memoryText = content:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    memoryText:SetPoint("TOPLEFT")
+    memoryText:SetWidth(280)
+    memoryText:SetJustifyH("LEFT")
+
+    frame.memoryText = memoryText
+
+    frame:SetScript("OnShow", function()
+        local lines = {}
+        for itemID, decision in pairs(db.itemMemory) do
+            local itemLink = "|cff0070dd|Hitem:" .. itemID .. "::::::::80:::::::::|h[item]" .. itemID .. "|h|r"
+            table.insert(lines, itemLink .. " - " .. decision)
+        end
+        memoryText:SetText(table.concat(lines, "\n"))
+    end)
 end
