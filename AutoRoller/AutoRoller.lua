@@ -42,10 +42,28 @@ local function InitDB()
 end
 
 local function IsEnchanter()
-    for i = 1, GetNumSkillLines() do
-        local skillName = GetSkillLineInfo(i)
-        if skillName == "Enchanting" then return true end
+    -- Check for the Disenchant spell first since it is guaranteed when
+    -- the player has the Enchanting profession. 13262 is the spell ID
+    -- for "Disenchant" on Wrath of the Lich King clients.
+    if IsPlayerSpell and IsPlayerSpell(13262) then
+        return true
     end
+    if IsSpellKnown and IsSpellKnown(13262) then
+        return true
+    end
+
+    -- Fallback to scanning skill lines in case the above APIs are
+    -- unavailable. This also supports enUS and localized clients that
+    -- report the profession name directly.
+    if GetNumSkillLines and GetSkillLineInfo then
+        for i = 1, GetNumSkillLines() do
+            local skillName = GetSkillLineInfo(i)
+            if skillName == "Enchanting" then
+                return true
+            end
+        end
+    end
+
     return false
 end
 
