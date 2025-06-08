@@ -41,32 +41,6 @@ local function InitDB()
     if type(db.autoRollEnabled) ~= "boolean" then db.autoRollEnabled = true end
 end
 
-local function IsEnchanter()
-    -- Check for the Disenchant spell first since it is guaranteed when
-    -- the player has the Enchanting profession. 13262 is the spell ID
-    -- for "Disenchant" on Wrath of the Lich King clients.
-    if IsPlayerSpell and IsPlayerSpell(13262) then
-        return true
-    end
-    if IsSpellKnown and IsSpellKnown(13262) then
-        return true
-    end
-
-    -- Fallback to scanning skill lines in case the above APIs are
-    -- unavailable. This also supports enUS and localized clients that
-    -- report the profession name directly.
-    if GetNumSkillLines and GetSkillLineInfo then
-        for i = 1, GetNumSkillLines() do
-            local skillName = GetSkillLineInfo(i)
-            if skillName == "Enchanting" then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 local function GetDecision(itemLink, rarity)
     local playerLevel = UnitLevel("player")
     local itemID = tonumber(itemLink:match("item:(%d+):"))
@@ -78,7 +52,6 @@ local function GetDecision(itemLink, rarity)
 
     if playerLevel < 70 then return "greed" end
     if rarity == 4 or rarity == 5 then return db.rollRules[rarity] or "pass" end
-    if IsEnchanter() and rarity <= 3 then return "disenchant" end
     return db.rollRules[rarity] or "greed"
 end
 
@@ -104,13 +77,12 @@ end
 
 local function OnStartLootRoll(rollID, rollTime)
     if not db or not db.autoRollEnabled then return end
-    local _, _, _, quality, _, _, _, canDE = GetLootRollItemInfo(rollID)
+    local _, _, _, quality = GetLootRollItemInfo(rollID)
     local itemLink = GetLootRollItemLink(rollID)
     if not itemLink then return end
 
     local decision = GetDecision(itemLink, quality)
     if not decision then return end
-    if decision == "disenchant" and not canDE then decision = "greed" end
     Roll(rollID, decision)
     HideLootRollFrame(rollID)
     print("AutoRoller: " .. decision .. " on " .. itemLink)
