@@ -55,9 +55,9 @@ local function ScanSingleAchievement(id, isCompleted, month, day, year)
 	   if critCompleted then 
 	      table.insert(CriteriaCache, tostring(j))
 	   else                  
-	      if reqQuantity > 1 then
-	         table.insert(CriteriaCache, j .. ":" .. quantity)
-	      end
+               if reqQuantity and reqQuantity > 1 then
+                       table.insert(CriteriaCache, j .. ":" .. quantity)
+               end
 	   end
 	end
 	

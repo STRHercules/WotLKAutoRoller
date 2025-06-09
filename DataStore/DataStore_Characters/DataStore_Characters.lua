@@ -127,25 +127,28 @@ local function _GetCharacterClass(character)
 end
 
 local ClassColors = {
-	["MAGE"] = "|cFF69CCF0",
-	["WARRIOR"] = "|cFFC79C6E",
-	["HUNTER"] = "|cFFABD473",
-	["ROGUE"] = "|cFFFFF569",
-	["WARLOCK"] = "|cFF9482CA", 
-	["DRUID"] = "|cFFFF7D0A", 
-	["SHAMAN"] = "|cFF2459FF",
-	["PALADIN"] = "|cFFF58CBA", 
-	["PRIEST"] = "|cFFFFFFFF",
-	["DEATHKNIGHT"] = "|cFFC41F3B"
+       ["MAGE"] = "|cFF69CCF0",
+       ["WARRIOR"] = "|cFFC79C6E",
+       ["HUNTER"] = "|cFFABD473",
+       ["ROGUE"] = "|cFFFFF569",
+       ["WARLOCK"] = "|cFF9482CA",
+       ["DRUID"] = "|cFFFF7D0A",
+       ["SHAMAN"] = "|cFF2459FF",
+       ["PALADIN"] = "|cFFF58CBA",
+       ["PRIEST"] = "|cFFFFFFFF",
+       ["DEATHKNIGHT"] = "|cFFC41F3B"
 }
 
+local DEFAULT_CLASS_COLOR = "|cFFFFFFFF"
+
 local function _GetColoredCharacterName(character)
-	return ClassColors[character.englishClass] .. character.name
+       local color = ClassColors[character.englishClass] or DEFAULT_CLASS_COLOR
+       return color .. character.name
 end
-	
+
 local function _GetClassColor(character)
-	-- return just the color of this character's class
-	return ClassColors[character.englishClass]
+       -- return just the color of this character's class
+       return ClassColors[character.englishClass] or DEFAULT_CLASS_COLOR
 end
 
 local function _GetCharacterFaction(character)
