@@ -90,11 +90,15 @@ local function addSlideIcon()
 	if LibStub then
 		local LibDataBroker = LibStub:GetLibrary("LibDataBroker-1.1", true)
 		if not LibDataBroker then return end
-		local LDBButton = LibDataBroker:NewDataObject("Swatter", {
-					type = "launcher",
-					icon = "Interface\\AddOns\\!Swatter\\Textures\\SwatterIcon",
-					OnClick = function(self, button) toggle(self, button) end,
-					})
+                -- LibDataBroker's NewDataObject will return nil if an object
+                -- with the provided name already exists.  Retrieve any
+                -- existing object first to avoid nil errors.
+                local LDBButton = LibDataBroker:GetDataObjectByName("Swatter")
+                        or LibDataBroker:NewDataObject("Swatter", {
+                                type = "launcher",
+                                icon = "Interface\\AddOns\\!Swatter\\Textures\\SwatterIcon",
+                                OnClick = function(self, button) toggle(self, button) end,
+                        })
 		
 		function LDBButton:OnTooltipShow()
 			self:AddLine("Swatter",  1,1,0.5, 1)
@@ -222,8 +226,9 @@ function Swatter.GetConfig()
 	local locale = GetLocale()
 	local realmList = GetCVar("realmList") or "none"
 	local version, build, date, tocversion = GetBuildInfo()
-	local trimmedRealmList = realmList:gsub("\.logon\.worldofwarcraft\.com", "")
-	local configString = string.format("  BlizRuntimeLib_%s v%s.%s \<%s\>\n",
+       -- Escape periods so gsub matches the literal hostname portion
+       local trimmedRealmList = realmList:gsub("%.logon%.worldofwarcraft%.com", "")
+	local configString = string.format("  BlizRuntimeLib_%s v%s.%s <%s>\n",
 					locale, version, tocversion, trimmedRealmList )
 	return configString
 end
