@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: Guild Quick Invite
+## Notes: Adds a right-click menu option to invite to guild.
+## Author: Nat & ChatGPT
+## Version: 1.0
+## SavedVariables: GuildQuickInviteDB, GuildQuickInviteMessages, GuildQuickInviteActiveMessage, GuildQuickInviteRecruitMsg, GuildQuickInviteRecruitDB, GQI_HistoryDB, GuildQuickInviteKnownGuildies
+
+GuildQuickInvite.lua
