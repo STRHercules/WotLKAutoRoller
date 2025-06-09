@@ -12,6 +12,9 @@ local inviteCache = {}
 local UpdateDropdown
 local editBox
 local HasCooldownExpired
+local FormatTimeRemaining
+local SendRecruitWhisper
+local LogGuildInvite
 
 -- Flag to prevent registering WIM buttons multiple times
 local wimButtonsRegistered = false
@@ -110,7 +113,7 @@ local function MarkPlayerJoined(name)
     end
 end
 
-function LogGuildInvite(name)
+local function LogGuildInvite(name)
     table.insert(gqiInviteHistory, {
         name = name,
         method = "Guild Invite",
@@ -120,7 +123,7 @@ function LogGuildInvite(name)
     })
 end
 
-function LogRecruitWhisper(name)
+local function LogRecruitWhisper(name)
     table.insert(gqiInviteHistory, {
         name = name,
         method = "Recruit Whisper",
