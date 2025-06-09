@@ -11,6 +11,7 @@ local INVITE_COOLDOWN = 21600
 local inviteCache = {}
 local UpdateDropdown
 local editBox
+local HasCooldownExpired
 
 -- Flag to prevent registering WIM buttons multiple times
 local wimButtonsRegistered = false
@@ -531,8 +532,7 @@ local function CleanRecruitCooldowns()
     end
 end
 
--- Checks if the cooldown for inviting a player has expired
-local function HasCooldownExpired(name)
+function HasCooldownExpired(name)
     local lastInvite = GuildQuickInviteDB[name]
     if not lastInvite then return true end
     return (time() - lastInvite) > INVITE_COOLDOWN
