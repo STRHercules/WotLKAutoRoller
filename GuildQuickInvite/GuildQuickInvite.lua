@@ -12,6 +12,37 @@ local inviteCache = {}
 local UpdateDropdown
 local editBox
 
+-- Flag to prevent registering WIM buttons multiple times
+local wimButtonsRegistered = false
+
+-- Registers WIM shortcut buttons for GuildQuickInvite
+local function RegisterWIMButtons()
+    if wimButtonsRegistered then return end
+    if not WIM or not WIM.RegisterShortcut then return end
+    local L = WIM.L or {}
+    WIM.RegisterShortcut("gqiinvite", L["Invite to Guild"], {
+        OnClick = function(self)
+            local target = self.parentWindow.isBN and self.parentWindow.toonName or self.parentWindow.theUser
+            if HasCooldownExpired(target) then
+                GuildInvite(target)
+                LogGuildInvite(target)
+                GuildQuickInviteDB[target] = time()
+                print("Guild invite sent to " .. target .. ". Cooldown started.")
+            else
+                local remaining = INVITE_COOLDOWN - (time() - GuildQuickInviteDB[target])
+                print("|cffff0000[GQI]|r Invited (Cooldown: " .. FormatTimeRemaining(remaining) .. ")")
+            end
+        end
+    })
+    WIM.RegisterShortcut("gqirecruit", L["Recruit"], {
+        OnClick = function(self)
+            local target = self.parentWindow.isBN and self.parentWindow.toonName or self.parentWindow.theUser
+            SendRecruitWhisper(target)
+        end
+    })
+    wimButtonsRegistered = true
+end
+
 -- Timestamp Format Toggle
 GuildQuickInviteUse24Hour = GuildQuickInviteUse24Hour or false
 
@@ -596,6 +627,11 @@ f:SetScript("OnEvent", function(self, event, addonName)
         CleanRecruitCooldowns()
         GQI_HistoryDB = GQI_HistoryDB or {}
         gqiInviteHistory = GQI_HistoryDB
+        if IsAddOnLoaded("WIM") then
+            RegisterWIMButtons()
+        end
+    elseif addonName == "WIM" then
+        RegisterWIMButtons()
     elseif event == "PLAYER_LOGOUT" or event == "PLAYER_LEAVING_WORLD" then
         GQI_HistoryDB = gqiInviteHistory
         print(

@@ -214,6 +214,8 @@ WIM.AddLocale("enUS", {
     ["Invite to Party"] = true,
     ["Add Friend"] = true,
     ["Ignore User"] = true,
+    ["Invite to Guild"] = true,
+    ["Recruit"] = true,
     ["Are you sure you want to\nignore %s?"] = true,
     ["Right-Click for profile links..."] = true,
     ["Profile Links"] = true,

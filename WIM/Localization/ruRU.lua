@@ -213,8 +213,10 @@ WIM.AddLocale("ruRU", {
 	["Coordinates"] = "Координаты персонажа",
 	["Invite to Party"] = "Пригласить в группу",
 	["Add Friend"] = "Добавить в друзья",
-	["Ignore User"] = "Игнорировать персонажа",
-	["Are you sure you want to\nignore %s?"] = "Вы уверены что вы хотите добавить\nперсонажа %s в черный список?",
+        ["Ignore User"] = "Игнорировать персонажа",
+        ["Invite to Guild"] = "Пригласить в гильдию",
+        ["Recruit"] = "Рекрут", 
+        ["Are you sure you want to\nignore %s?"] = "Вы уверены что вы хотите добавить\nперсонажа %s в черный список?",
     ["Right-Click for profile links..."] = "[Правый-Клик] - ссылка на профиль...",
     ["Profile Links"] = "Ссылка на профиль",
     

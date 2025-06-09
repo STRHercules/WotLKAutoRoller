@@ -216,6 +216,8 @@ WIM.AddLocale("zhCN", {
     ["Invite to Party"] = "组队邀请",
     ["Add Friend"] = "加入好友",
     ["Ignore User"] = "加入黑名单",
+    ["Invite to Guild"] = "公会邀请",
+    ["Recruit"] = "招募",
     ["Are you sure you want to\nignore %s?"] = "您确定您要忽略 %s",
     
     -- Tutorials.lua --

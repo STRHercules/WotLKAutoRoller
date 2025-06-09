@@ -217,6 +217,8 @@ WIM.AddLocale("zhTW", {
     ["Invite to Party"] = "組隊邀請",
     ["Add Friend"] = "加入好友",
     ["Ignore User"] = "加入黑名單",
+    ["Invite to Guild"] = "公會邀請",
+    ["Recruit"] = "招募",
     ["Are you sure you want to\nignore %s?"] = "您確定您要忽略 %s",
     ["Right-Click for profile links..."] ="右鍵點擊 查看英雄榜",
     ["Profile Links"] = "查看英雄榜",
