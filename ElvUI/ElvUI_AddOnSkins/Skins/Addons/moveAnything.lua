@@ -25,12 +25,16 @@ S:AddCallbackForAddon("MoveAnything", "MoveAnything", function()
 		_G[self:GetName() .. "BackdropMovingFrameName"]:SetTextColor(unpack(E.media.rgbvaluecolor))
 	end
 
-	for i = 1, 20 do
-		_G["MAMover" .. i .. "Backdrop"]:SetTemplate("Transparent")
-		_G["MAMover" .. i]:HookScript("OnShow", moverOnShow)
-		_G["MAMover" .. i]:SetScript("OnEnter", moverOnEnter)
-		_G["MAMover" .. i]:SetScript("OnLeave", moverOnLeave)
-	end
+       for i = 1, 20 do
+               local mover = _G["MAMover" .. i]
+               local backdrop = _G["MAMover" .. i .. "Backdrop"]
+               if mover and backdrop then
+                       backdrop:SetTemplate("Transparent")
+                       mover:HookScript("OnShow", moverOnShow)
+                       mover:SetScript("OnEnter", moverOnEnter)
+                       mover:SetScript("OnLeave", moverOnLeave)
+               end
+       end
 
 	MAOptions:StripTextures()
 	MAOptions:SetTemplate("Transparent")
