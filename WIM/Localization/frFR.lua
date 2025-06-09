@@ -213,6 +213,8 @@ WIM.AddLocale("frFR", {
     ["Invite to Party"] = "Inviter pour groupage",
     ["Add Friend"] = "Ajouter un ami",
     ["Ignore User"] = "Ignorer cet utilisateur",
+    ["Invite to Guild"] = "Inviter dans la guilde",
+    ["Recruit"] = "Recruter",
     ["Are you sure you want to\nignore %s?"] = "Êtes-vous sûr de vouloir ignorer %s?",
     ["Right-Click for profile links..."] = "Clic droit pour link le Profil...",
     ["Profile Links"] = "Liens du profil",

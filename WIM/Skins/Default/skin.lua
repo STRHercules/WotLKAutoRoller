@@ -228,6 +228,8 @@ local WIM_ClassicSkin = {
                         invite = "Interface\\Icons\\Spell_Holy_BlessingOfStrength",
                         friend = "Interface\\Icons\\INV_Misc_GroupNeedMore",
                         ignore = "Interface\\Icons\\Ability_Physical_Taunt",
+                        gqiinvite = "Interface\\Icons\\INV_Misc_TabardPVP_01",
+                        gqirecruit = "Interface\\Icons\\INV_Misc_Note_02",
                     }
                 }
             }

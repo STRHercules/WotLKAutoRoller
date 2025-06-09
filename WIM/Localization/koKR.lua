@@ -212,6 +212,8 @@ WIM.AddLocale("koKR", {
     ["Invite to Party"] = "파티 초대",
     ["Add Friend"] = "친구 추가",
     ["Ignore User"] = "차단 설정",
+    ["Invite to Guild"] = "길드 초대",
+    ["Recruit"] = "모집", 
     ["Are you sure you want to\nignore %s?"] = "당신은 %s 의 차단을 원합니까?",
     
     -- Tutorials.lua --
