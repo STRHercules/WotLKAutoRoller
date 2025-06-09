@@ -19,34 +19,6 @@ local LogGuildInvite
 -- Flag to prevent registering WIM buttons multiple times
 local wimButtonsRegistered = false
 
--- Registers WIM shortcut buttons for GuildQuickInvite
-local function RegisterWIMButtons()
-    if wimButtonsRegistered then return end
-    if not WIM or not WIM.RegisterShortcut then return end
-    local L = WIM.L or {}
-    WIM.RegisterShortcut("gqiinvite", L["Invite to Guild"], {
-        OnClick = function(self)
-            local target = self.parentWindow.isBN and self.parentWindow.toonName or self.parentWindow.theUser
-            if HasCooldownExpired(target) then
-                GuildInvite(target)
-                LogGuildInvite(target)
-                GuildQuickInviteDB[target] = time()
-                print("Guild invite sent to " .. target .. ". Cooldown started.")
-            else
-                local remaining = INVITE_COOLDOWN - (time() - GuildQuickInviteDB[target])
-                print("|cffff0000[GQI]|r Invited (Cooldown: " .. FormatTimeRemaining(remaining) .. ")")
-            end
-        end
-    })
-    WIM.RegisterShortcut("gqirecruit", L["Recruit"], {
-        OnClick = function(self)
-            local target = self.parentWindow.isBN and self.parentWindow.toonName or self.parentWindow.theUser
-            SendRecruitWhisper(target)
-        end
-    })
-    wimButtonsRegistered = true
-end
-
 -- Timestamp Format Toggle
 GuildQuickInviteUse24Hour = GuildQuickInviteUse24Hour or false
 
@@ -561,6 +533,34 @@ local function SendRecruitWhisper(name)
     LogRecruitWhisper(name)
     recruitCooldownDB[name] = now
     print("|cffffff00[GQI]|r Whisper sent to " .. name)
+end
+
+-- Registers WIM shortcut buttons for GuildQuickInvite
+local function RegisterWIMButtons()
+    if wimButtonsRegistered then return end
+    if not WIM or not WIM.RegisterShortcut then return end
+    local L = WIM.L or {}
+    WIM.RegisterShortcut("gqiinvite", L["Invite to Guild"], {
+        OnClick = function(self)
+            local target = self.parentWindow.isBN and self.parentWindow.toonName or self.parentWindow.theUser
+            if HasCooldownExpired(target) then
+                GuildInvite(target)
+                LogGuildInvite(target)
+                GuildQuickInviteDB[target] = time()
+                print("Guild invite sent to " .. target .. ". Cooldown started.")
+            else
+                local remaining = INVITE_COOLDOWN - (time() - GuildQuickInviteDB[target])
+                print("|cffff0000[GQI]|r Invited (Cooldown: " .. FormatTimeRemaining(remaining) .. ")")
+            end
+        end
+    })
+    WIM.RegisterShortcut("gqirecruit", L["Recruit"], {
+        OnClick = function(self)
+            local target = self.parentWindow.isBN and self.parentWindow.toonName or self.parentWindow.theUser
+            SendRecruitWhisper(target)
+        end
+    })
+    wimButtonsRegistered = true
 end
 
 -- Adds an option to the unit dropdown menu to invite to guild or send a recruit whisper
