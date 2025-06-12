@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: Guild Roster
+## Notes: Enhanced guild roster replacement with sorting and customization.
+## Author: ChatGPT
+## Version: 0.1
+
+GuildRoster.lua
