@@ -1,0 +1,10 @@
+## Interface: 30300
+## Title: Guild Roster
+## Author: Jules
+## Version: 0.1
+## Notes: A replacement for the default Guild Roster window.
+## DefaultState: enabled
+## LoadOnDemand: 0
+## OptionalDeps: ElvUI
+
+Core.lua
