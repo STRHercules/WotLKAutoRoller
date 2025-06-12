@@ -65,7 +65,7 @@ local menuFrame = CreateFrame("Frame", "GuildDatatTextRightClickMenu", E.UIParen
 local menuList = {
         {text = OPTIONS_MENU, isTitle = true, notCheckable = true},
         {text = INVITE, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}},
-        {text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}}
+       {text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}}
 }
 
 -- forward declaration for use before definition
@@ -213,7 +213,7 @@ local function OnClick(self, btn)
 	end
 end
 
-local function OnEnter(self, _, noUpdate)
+function OnEnter(self, _, noUpdate)
 	if not IsInGuild() then return end
 
 	DT:SetupTooltip(self)
