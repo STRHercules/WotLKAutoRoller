@@ -63,10 +63,13 @@ local totalMembers = 0
 
 local menuFrame = CreateFrame("Frame", "GuildDatatTextRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {
-	{text = OPTIONS_MENU, isTitle = true, notCheckable = true},
-	{text = INVITE, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}},
-	{text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}}
+        {text = OPTIONS_MENU, isTitle = true, notCheckable = true},
+        {text = INVITE, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}},
+        {text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}}
 }
+
+-- forward declaration for use before definition
+local OnEnter
 
 local function inviteClick(_, playerName)
 	menuFrame:Hide()
