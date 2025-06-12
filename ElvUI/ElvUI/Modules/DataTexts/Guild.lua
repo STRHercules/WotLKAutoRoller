@@ -63,10 +63,13 @@ local totalMembers = 0
 
 local menuFrame = CreateFrame("Frame", "GuildDatatTextRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {
-	{text = OPTIONS_MENU, isTitle = true, notCheckable = true},
-	{text = INVITE, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}},
-	{text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}}
+        {text = OPTIONS_MENU, isTitle = true, notCheckable = true},
+        {text = INVITE, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}},
+       {text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable = true, keepShownOnClick = true, noClickSound = true, menuList = {}}
 }
+
+-- forward declaration for use before definition
+local OnEnter
 
 local function inviteClick(_, playerName)
 	menuFrame:Hide()
@@ -124,8 +127,42 @@ local function BuildDataTable()
 	dataUpdated = true
 end
 
-local function OnClick(_, btn)
-	if btn == "RightButton" and IsInGuild() then
+local GuildPopout
+
+local function ToggleGuildPopout()
+    if not GuildPopout then
+        GuildPopout = CreateFrame("Frame", "ElvUI_GuildPopout", E.UIParent, "BackdropTemplate")
+        GuildPopout:SetTemplate("Transparent")
+        GuildPopout:SetPoint("CENTER")
+        GuildPopout:SetSize(200, 20)
+        GuildPopout:SetClampedToScreen(true)
+        GuildPopout:SetMovable(true)
+        GuildPopout:EnableMouse(true)
+        GuildPopout:RegisterForDrag("LeftButton")
+        GuildPopout:SetScript("OnDragStart", GuildPopout.StartMoving)
+        GuildPopout:SetScript("OnDragStop", GuildPopout.StopMovingOrSizing)
+        GuildPopout.anchor = "ANCHOR_TOP"
+        GuildPopout.xOff = 0
+        GuildPopout.yOff = 0
+
+        GuildPopout.button = CreateFrame("Button", nil, GuildPopout)
+        GuildPopout.button:SetAllPoints(GuildPopout)
+        GuildPopout.button:SetScript("OnLeave", DT.Data_OnLeave)
+    end
+
+    if GuildPopout:IsShown() then
+        DT.tooltip:Hide()
+        GuildPopout:Hide()
+    else
+        GuildPopout:Show()
+        OnEnter(GuildPopout.button)
+    end
+end
+
+local function OnClick(self, btn)
+    if btn == "LeftButton" and IsShiftKeyDown() then
+        ToggleGuildPopout()
+    elseif btn == "RightButton" and IsInGuild() then
 		if totalOnline <= 1 then return end
 
 		DT.tooltip:Hide()
@@ -176,7 +213,7 @@ local function OnClick(_, btn)
 	end
 end
 
-local function OnEnter(self, _, noUpdate)
+function OnEnter(self, _, noUpdate)
 	if not IsInGuild() then return end
 
 	DT:SetupTooltip(self)
