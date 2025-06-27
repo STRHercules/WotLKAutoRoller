@@ -39,11 +39,15 @@ for tab = 1, GetNumTalentTabs() do
    
 end
 
-	local name1,icon=GetTalentTabInfo(primarytree,false,false,activeSpec);
-	name1=string.upper(name1)
-  local specid;
+        local name1,icon=GetTalentTabInfo(primarytree,false,false,activeSpec)
+        if name1 then
+            name1=string.upper(name1)
+        else
+            name1=""
+        end
+  local specid
 
-	  for k,v in pairs(Statics.wotlkSpecIDList) do
+          for k,v in pairs(Statics.wotlkSpecIDList) do
 
 		local searchStr=string.upper(v)
 		local st,ed=string.find(searchStr,name1)
@@ -56,22 +60,27 @@ end
 				if(st1~=nil or st2~=nil) then 
 					specid=k 
 				end	
-			end
-	  end
-  return specid,name1,icon;
+                        end
+          end
+  if not specid then
+    specid = 0
+  end
+  return specid,name1,icon
 end
 
 --- Return the characters class id
 function GSE.GetCurrentClassID()
   --local _, _, currentclassId = UnitClass("player")--classDisplayName, class, classID = UnitClass("unit");
   local class1, class = UnitClass("player")
-  local currentclassId1=""
+  local currentclassId1
   for k,v in pairs(Statics.wotlkClassIDList) do
-	if (string.upper(v)==string.upper(class) or string.upper(v)==string.upper(class1)) then 
-		currentclassId1=k 
-	end
+        if (string.upper(v)==string.upper(class) or string.upper(v)==string.upper(class1)) then
+                currentclassId1=k
+        end
   end
- -- DEFAULT_CHAT_FRAME:AddMessage("currentclassId1 "..currentclassId1)
+  if not currentclassId1 then
+    currentclassId1 = 0
+  end
   return currentclassId1
 end
 
@@ -86,11 +95,11 @@ function GSE.GetClassIDforSpec(specid)
   --local id, name, description, icon, role, class = GetSpecializationInfoByID(specid)
 --classid
 	local value,classid,class;
-	for k,v in pairs(Statics.wotlkClassIDList) do
-		if (k==specid) then 
-			classid=k  
-		end
-	end
+        for k,v in pairs(Statics.wotlkClassIDList) do
+                if (k==specid) then
+                        classid=k
+                end
+        end
   
   for k,v in pairs(Statics.wotlkSpecIDList) do
 	if (k==specid) then 
@@ -101,12 +110,12 @@ function GSE.GetClassIDforSpec(specid)
 		end
 		--print(v,last,last[#last])
 	    --local class=string.upper(last[#last])
-		for k1,v1 in pairs(Statics.wotlkClassIDList) do
-			if (string.upper(v1)==string.upper(class)) then 
-			classid=k1  
-			end
-		end
-	end
+                for k1,v1 in pairs(Statics.wotlkClassIDList) do
+                        if (string.upper(v1)==string.upper(class)) then
+                        classid=k1
+                        end
+                end
+        end
   end
 	--local last = string.split( value, "% " )
 	--local class=string.upper(last[#last])
@@ -123,64 +132,41 @@ function GSE.GetClassIDforSpec(specid)
       -- if class == st then
         -- classid = i
       -- end
-    -- end
+   -- end
   -- end
-   return classid
+  if not classid then
+    classid = 0
+  end
+  return classid
 end
 
 function GSE.GetClassIcon(classid)
-  local classicon = {}
-  -- classicon[1] = "Interface\\Icons\\inv_sword_27" -- Warrior
-  -- classicon[2] = "Interface\\Icons\\ability_thunderbolt" -- Paladin
-  -- classicon[3] = "Interface\\Icons\\inv_weapon_bow_07" -- Hunter
-  -- classicon[4] = "Interface\\Icons\\inv_throwingknife_04" -- Rogue
-  -- classicon[5] = "Interface\\Icons\\inv_staff_30" -- Priest
-  -- classicon[6] = "Interface\\Icons\\inv_sword_27" -- Death Knight
-  -- classicon[7] = "Interface\\Icons\\inv_jewelry_talisman_04" -- SWhaman
-  -- classicon[8] = "Interface\\Icons\\inv_staff_13" -- Mage
-  -- classicon[9] = "Interface\\Icons\\spell_nature_drowsy" -- Warlock
- -- classicon[10] = "Interface\\Icons\\Spell_Holy_FistOfJustice" -- Monk
-  -- classicon[11] = "Interface\\Icons\\inv_misc_monsterclaw_04" -- Druid
- --classicon[12] = "Interface\\Icons\\INV_Weapon_Glave_01" -- DEMONHUNTER
-
-	
-	
-   classicon[1] = "Interface\\Icons\\inv_sword_27" -- Warrior
-  classicon[2] = "Interface\\Icons\\ability_thunderbolt" -- Paladin
-  classicon[3] = "Interface\\Icons\\inv_weapon_bow_07" -- Hunter
-  classicon[4] = "Interface\\Icons\\inv_throwingknife_04" -- Rogue
-  classicon[5] = "Interface\\Icons\\INV_Staff_30" -- Priest
-  classicon[6] = "Interface\\Icons\\Spell_Deathknight_ClassIcon" -- Death Knight
-  classicon[7] = "Interface\\Icons\\Spell_Nature_BloodLust" -- SWhaman
-  classicon[8] = "Interface\\Icons\\INV_Staff_13" -- Mage
-  classicon[9] = "Interface\\Icons\\Spell_Nature_FaerieFire" -- Warlock
-	classicon[10] = "Interface\\Icons\\INV_Misc_MonsterClaw_04" -- Monk
-  classicon[11] = "Interface\\Icons\\INV_Misc_MonsterClaw_04" -- Druid
-	classicon[12] = "Interface\\Icons\\inv_weapon_bow_07" -- DEMONHUNTER
-  return classicon[classid]
-
+  -- All players are the Hero class so return a generic icon
+  return "Interface\\Icons\\INV_Misc_QuestionMark"
 end
 
 --- Check if the specID provided matches the plauers current class.
 function GSE.isSpecIDForCurrentClass(specID)
-for k,v in pairs(Statics.wotlkSpecIDList) do
-	if (k==specid) then 
-		value=Statics.wotlkSpecIDList[specID] 
-		local last = string.split( value, "% " )
-	    local class=string.upper(last[#last])
-		local currentenglishclass, currentclassDisplayName = UnitClass("player")
-		
-		currentenglishclass=string.upper(currentenglishclass)
-		currentclassId=string.upper(currentclassDisplayName)
-		
-		for k1,v1 in pairs(Statics.wotlkClassIDList) do
-			if (string.upper(v1)==string.upper(class)) then currentclassId=k1 end
-		end
-		
-		return (class==currentenglishclass or specID==currentclassId)
+  for k,v in pairs(Statics.wotlkSpecIDList) do
+        if (k==specID) then
+                local value=Statics.wotlkSpecIDList[specID]
+                local last = string.split( value, "% " )
+            local class=string.upper(last[#last])
+                local currentenglishclass, currentclassDisplayName = UnitClass("player")
 
-	end
- end
+                currentenglishclass=string.upper(currentenglishclass)
+                currentclassId=string.upper(currentclassDisplayName)
+
+                for k1,v1 in pairs(Statics.wotlkClassIDList) do
+                        if (string.upper(v1)==string.upper(class)) then currentclassId=k1 end
+                end
+
+                return (class==currentenglishclass or specID==currentclassId)
+
+        end
+  end
+  return false
+end
   
   -- local _, specname, specdescription, specicon, _, specrole, specclass = GetSpecializationInfoByID(specID)
   -- local currentclassDisplayName, currentenglishclass, currentclassId = UnitClass("player")
