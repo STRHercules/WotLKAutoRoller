@@ -1,0 +1,48 @@
+
+local AtlasLoot = LibStub("AceAddon-3.0"):GetAddon("AtlasLoot")
+local patchNotes = {
+    {"Version 7.5.2", "3rd May, 2025"},
+    "Fixed bug that causing Item Source to not show in item tooltips",
+    {"Version 7.5.1", "15th Feburuary, 2025"},
+    "Fixed error on fresh install",
+    {"Version 7.5.0", "5th Feburuary, 2025"},
+    "The learn unknown vanity button now will learn All unknown vanity spells you own",
+    "Updated Hyjal Summit Loot",
+    "You can now change the size of the menu text",
+    "Settings are saved as a profile and are set to default unless changed",
+    "Wishlist settings are now in the options menu on the wishlist page",
+    {"Version 7.4.7", "22th November, 2024"},
+    "Fixed vanity items not showing and sorted them into more categorys",
+    {"Version 7.4.5", "22nd November, 2024"},
+    "Fixed drop location tooltips not showing",
+    {"Version 7.4.5", "21st November, 2024"},
+    "Added option to show an item glow on items in a vendor that are in your wishlists",
+    {"Version 7.4.4", "15th November, 2024"},
+    "Rebuilt the TBC PVP rewards module",
+    {"Version 7.4.3", "11th November, 2024"},
+    "Added mark of triumph vendor to classic collections",
+    "Added shared boss loot section to classic raid/dungeon category",
+    "Updated classic faction loot",
+    "Recipes in Dungeons and Raid loot tables will now show green/blue known icon heighlights",
+    "Moved the All Dungeon Loot page to the top of the dungeons section of the dungeon/raid categorys",
+    "Bug fixs",
+    {"Version 7.4.2", "7th November, 2024"},
+    "Updated Karazhan/Gruul's Lair and Magtheridon's Lairs loot tables",
+    {"Version 7.4.1", "7th November, 2024"},
+    "Added a News/Patch notes frame",
+    {"Version 7.4", "6th November, 2024"},
+	"Added loot tables for blackrock caverns and karazhan crypts both classic and tbc",
+    "Added manastorm frozen reach loot for both classic and tbc",
+    "Improved item source tooltips",
+    "Moved/Changed some crafting recipes that were in the wrong place or had the wrong id",
+    {"Version 7.3.23", "26th September, 2024"},
+	"Added option to show source in item tooltips",
+    {"Version 7.3.20", "15th September, 2024"},
+    "Added Sunmote Vendor",
+    "Updated Sunwell Loot table",
+    "Sunwell and Sunmote vendor now have popups showing there item exchanges",
+}
+
+function AtlasLoot:PatchNotes()
+    self:InitializeNewsFrame(self.selectedProfile, patchNotes, "AtlasLoot")
+end

@@ -1,0 +1,9 @@
+## Interface: 30300
+## Title: XanAscTweaks
+## Author: Xan
+## Notes: Provides a collection of settings to adjust Ascension behavior that are not supported with default tools
+## SavedVariables: XanAscTweaks
+
+Libs\Libs.xml
+Locales\Locales.xml
+Core\Core.xml

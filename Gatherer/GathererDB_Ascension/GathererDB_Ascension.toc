@@ -1,0 +1,17 @@
+## Interface: 30300
+## DefaultState: disabled
+## 
+## Title: GathererDB: |cffce0a11Ascension|r
+## Notes: Gatherer preloaded database, from |cffce0a11http://db.ascension.gg|r
+## Version: 1.0.2023-05-31
+##
+## X-Website: http://www.gathereraddon.com
+## X-Author: Norganna's AddOns - Nechckn, Project Administrator, MentalPower
+## X-CompatibleLocales: enUS, enGB, deDE, frFR, koKR, zhCN, zhTW, esES
+## X-Category: Tradeskill
+## X-Date: 2023-05-31
+##
+## RequiredDeps: Gatherer
+
+DB_AscensionMain.lua
+DB_AscensionData.lua
