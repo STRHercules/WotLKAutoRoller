@@ -1,0 +1,9 @@
+==============================
+HOW TO CHANGE ICON
+==============================
+Note:After you create macro in GSE, that macro is just a template not an actual Macro, to use them you need to 
+1- click "Create Icon"
+   you will see icon changed to Question Mark
+2- Drag that Question Mark Button to Your Bar. (GSE will automatically create a Macro)
+3- Now go to Your Macros: /macro
+4- Modify the icon/Name to your liking.
