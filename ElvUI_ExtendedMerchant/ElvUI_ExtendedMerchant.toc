@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r Extended Merchant
+## Notes: Expands the merchant window to show 5x5 items per page
+## RequiredDeps: ElvUI
+## LoadOnDemand: 1
+
+core.lua
