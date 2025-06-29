@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: Zone ID Scanner
+## Notes: Saves all valid Zone IDs to SavedVariables
+## Author: Nat & ChatGPT
+## SavedVariables: ZoneIDScannerData
+ZoneIDScanner.lua
