@@ -1,0 +1,5 @@
+## Interface: 30300
+## Title: Transmog Collector
+## Notes: Transmog autolearn
+## Author: Lymlx
+TransmogCollector.lua
